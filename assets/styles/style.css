@@ -1,3 +1,33 @@
 @charset "utf-8";
-
 @import './reset.css';
+
+:root {
+	--background-colour: #fa5dfa;
+}
+
+* { transition: 0.2s ease-in-out; }
+
+/* Background */
+
+.background {
+	height: 100svh;
+	background-color: var(--background-colour);
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.title {
+	text-align: center;
+	width: 100%;
+	margin-top: 120px;
+	margin-bottom: -400px;
+}
+
+/* Game */
+
+.game-container {
+	background-color: aliceblue;
+	height: 60%;
+	width: 80%;
+}
