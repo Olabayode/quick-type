@@ -1,11 +1,6 @@
 @charset "utf-8";
 @import './reset.css';
 
-:root {
-	--background-colour: #5272ff;
-	--title-colour: white;
-}
-
 * { 
 	transition: 0.2s ease-in-out; 
 	font-family: "Geo";
@@ -30,7 +25,7 @@
 
 .background {
 	height: 100svh;
-	background-color: var(--background-colour);
+	background-color: #278cff;
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
@@ -42,27 +37,44 @@
 	width: 100%;
 	margin-top: 60px;
 	margin-bottom: -175px;
-	color: var(--title-colour);
+	color: #fff;
 }
 
 /* Game */
 
 .game-container {
+/* To turn invisible, visibility: hidden and opacity: 0. visible - visibility: visible opacity: 1 */
+	visibility: visible;
+	opacity: 1;
 	background-color: aliceblue;
 	text-align: center;
 	padding: 20px;
 	height: 60%;
 	width: 80%;
+	border-radius: 4px;
+	border: 1px solid #9eb4f0;
+	box-shadow: 1px 1px 5px #3d4980;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
 }
 
 .displayed-word {
-	
+	font-size: 40px;
+	margin-top: 20px;
 }
 
 .typed-word {
+	font-size: 26px;
+	margin-top: -80px;
+	input { 
+		height: 60px;
+		padding: 0 6px;
+		border: 1px solid #e7f0fd;
+		border-radius: 8px;
+		text-align: center; 
+	}
+	input:focus { box-shadow: 0 0 8px #9fc1e7; }
 }
 
 /* Media Queries */
