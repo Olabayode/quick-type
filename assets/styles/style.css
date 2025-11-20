@@ -2,10 +2,26 @@
 @import './reset.css';
 
 :root {
-	--background-colour: #fa5dfa;
+	--background-colour: #5272ff;
+	--title-colour: white;
 }
 
 * { transition: 0.2s ease-in-out; }
+
+/* Fonts */
+
+.geo-regular {
+  font-family: "Geo", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.geo-regular-italic {
+  font-family: "Geo", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
 
 /* Background */
 
@@ -18,16 +34,28 @@
 }
 
 .title {
+	font-family: "Geo";
+	font-size: 90px;
 	text-align: center;
 	width: 100%;
-	margin-top: 120px;
-	margin-bottom: -400px;
+	margin-top: 60px;
+	margin-bottom: -175px;
+	color: var(--title-colour);
 }
 
 /* Game */
 
 .game-container {
 	background-color: aliceblue;
+	text-align: center;
 	height: 60%;
 	width: 80%;
+}
+
+/* Media Queries */
+
+@media (max-height: 890px) {
+	.title {
+		margin-bottom: -65px;
+	}
 }
