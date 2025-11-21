@@ -12,12 +12,6 @@ begin.loop = true;
 const startBtn = document.querySelector('.start-button')
 
 //event listener
-window.addEventListener('load', () => {
-  welcome.play().catch(error=> {
-    console.log('Muted audio play prevented :', error)
-  })
-})
-
 window.addEventListener('click', () => {
     welcome.muted = false;
     welcome.play();
