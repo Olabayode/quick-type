@@ -52,6 +52,7 @@
 	top: 50%;
 	transform: translate(-50%, -50%);
 	input {
+		color: #278cff;
 		font-weight: 700;
 		font-size: 46px;
 		width: 160px;
@@ -63,6 +64,11 @@
 	input:hover {
 		translate: 0 -3px;
 		box-shadow: 1px 7px 10px #3d4980;
+	}
+	input:active {
+		background-color: #0731bb;
+		border: 1px solid #002a9c;
+		color: rgb(17, 0, 63);
 	}
 }
 
