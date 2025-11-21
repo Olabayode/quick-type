@@ -57,13 +57,13 @@
 		font-size: 46px;
 		width: 160px;
 		height: 80px;
-		border-radius: 10px;
+		border-radius: 8px;
 		border: 1px solid #9eb4f0;
 		box-shadow: 1px 1px 5px #3d4980;
 	}
 	input:hover {
 		translate: 0 -3px;
-		box-shadow: 1px 7px 10px #3d4980;
+		box-shadow: 1px 7px 10px #566297;
 	}
 	input:active {
 		background-color: #0731bb;
@@ -83,7 +83,7 @@
 	width: 75%;
 	border-radius: 4px;
 	border: 1px solid #9eb4f0;
-	box-shadow: 1px 1px 5px #3d4980;
+	box-shadow: 1px 1px 5px #606ca1;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
@@ -111,45 +111,45 @@
 /* Media Queries */
 
 @media (max-height: 890px) {
-	.title {	margin-bottom: -65px;	}
+	.title { margin-bottom: -65px; }
 }
 
 @media (max-height: 610px) {
-	.title {	margin-bottom: -35px;	}
+	.title { margin-bottom: -35px; }
 }
 
 @media (max-width: 800px) {
-	.displayed-word {	font-size: 48px;	}
+	.displayed-word { font-size: 48px; }
 }
 
 @media (max-width: 620px) {
-	.displayed-word {	font-size: 42px; }
+	.displayed-word { font-size: 42px; }
 }
 
 @media (max-width: 510px) {
-	.displayed-word {	font-size: 38px; }
+	.displayed-word { font-size: 38px; }
 	.title { font-size: 84px;	}
 }
 
 @media (max-width: 510px) {
-	.displayed-word {	font-size: 34px;	}
+	.displayed-word { font-size: 34px; }
 	.title { font-size: 78px; }
 	.typed-word input { width: 80%; }
 }
 
 @media (max-width: 430px) {
-	.displayed-word {	font-size: 30px;	}
+	.displayed-word { font-size: 30px; }
 	.title { font-size: 72px; }
 }
 
 @media (max-width: 400px) {
-	.displayed-word {	font-size: 24px;	}
+	.displayed-word { font-size: 24px; }
 	.title { font-size: 66px; }
 	.typed-word input { height: 60px; }
 }
 
 @media (max-width: 320px) {
-	.displayed-word {	font-size: 22px;	}
+	.displayed-word { font-size: 22px; }
 	.title { font-size: 60px; }
 	.typed-word input { height: 54px; }
 }
