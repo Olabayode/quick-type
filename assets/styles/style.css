@@ -73,8 +73,8 @@
 }
 
 .start-countdown {
-	visibility: visible;
-	opacity: 1;
+	visibility: hidden;
+	opacity: 0;
 	font-size: 150px;
 	color: white;
 	text-shadow: 0 0 8px rgb(0 0 0 / 0.3);
@@ -82,6 +82,21 @@
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
+}
+
+.start-countdown.anim {
+	animation: 1s zoom ease-in-out;
+}
+
+@keyframes zoom {
+	0% { 
+		font-size: 150px; 
+		opacity: 1;
+	}
+	100% { 
+		font-size: 40px; 
+		opacity: 0;
+	}
 }
 
 .game-container {
