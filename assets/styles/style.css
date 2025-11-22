@@ -45,8 +45,8 @@
 /* Game */
 
 .start-button {
-	visibility: hidden;
-	opacity: 0;
+	visibility: visible;
+	opacity: 1;
 	position: absolute;
 	left: 50%;
 	top: 50%;
@@ -74,8 +74,8 @@
 
 .game-container {
 /* To turn invisible, visibility: hidden and opacity: 0. Visible - visibility: visible opacity: 1 */
-	visibility: visible;
-	opacity: 1;
+	visibility: hidden;
+	opacity: 0;
 	background-color: rgb(242, 249, 255);
 	text-align: center;
 	padding: 20px;
