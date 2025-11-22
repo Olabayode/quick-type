@@ -72,6 +72,18 @@
 	}
 }
 
+.start-countdown {
+	visibility: visible;
+	opacity: 1;
+	font-size: 150px;
+	color: white;
+	text-shadow: 0 0 8px rgb(0 0 0 / 0.3);
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
 .game-container {
 /* To turn invisible, visibility: hidden and opacity: 0. Visible - visibility: visible opacity: 1 */
 	visibility: hidden;
