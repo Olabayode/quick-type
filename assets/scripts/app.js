@@ -17,16 +17,19 @@ const startCount = select('.start-countdown');
 const userInput = getElement('user-input');
 
 //event listener
-listen('click', window, () => {
-    welcome.muted = false;
-    welcome.play();
-}, {once: true});
+let welcomePlayed = false;
+listen('click', window, (event) => {
+    if (!welcomePlayed && !startBtn.contains(event.target)) {
+        welcome.muted = false;
+        welcome.play();
+        welcomePlayed = true;
+    }
+}, { once: true });
 
 listen('click', startBtn, () => {
     welcome.pause();
     welcome.currentTime = 0;
     openGame();
-
     begin.play().catch(error => {
         console.log('Start audio prevented:', error)
     });
@@ -44,6 +47,7 @@ function openGame() {
         gameBox.style.opacity = '1';
         userInput.focus();
     }, 4000);
+    
 }
 
 let counter = 3;
