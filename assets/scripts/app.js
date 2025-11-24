@@ -1,6 +1,6 @@
 'use strict';
 
-import { select, listen, getElement, selectAll, randomWords, Score } from "./utils.js";
+import { select, listen, getElement, selectAll, randomWords, Score, getDate } from "./utils.js";
 
 const welcome = new Audio('./assets/media/welcome.mp3');
 welcome.muted = true;
@@ -18,9 +18,11 @@ const startCount = select('.start-countdown');
 const userInput = getElement('user-input');
 const randomDisplay = getElement('random-word');
 const score = getElement('score');
+const scoreboard = getElement('scoreboard');
 const gameOverBox = getElement('game-over-container');
 const endScore = getElement('game-over-score');
 const resetBtn = getElement('reset-button');
+const gameStatus = getElement('game-over-status');
 
 
 // TIMER elements
@@ -28,7 +30,10 @@ const timerDisplay = getElement('time-remaining');
 let timeLeft = 30;   // we can change it to whatever time we want, also need to change in the reset function
 let timerInterval = null;
 
-//event listener
+// words to win
+const wordsToWin = 15;
+
+// event listener
 let welcomePlayed = false;
 listen('click', window, (event) => {
     if (!welcomePlayed && !startBtn.contains(event.target)) {
@@ -103,6 +108,11 @@ function startMainTimer() {
         timeLeft--;
         timerDisplay.textContent = timeLeft;
 
+        if (scoreCount === wordsToWin) {
+            clearInterval(timerInterval);
+            gameWin();
+        }
+
         if (timeLeft === 0) {
             clearInterval(timerInterval);
             gameOver();
@@ -111,20 +121,53 @@ function startMainTimer() {
 }
 
 
-// Placeholder gameOver function
+// gameOver function
 let scoresArray = [];
+let now = new Date();
 
 function gameOver() {
     begin.pause();
-    let now = new Date();
-    scoresArray.push(new Score(now, scoreCount, 100));
-    // alert("Time’s up! Game Over!");
+    let wordsGottenPercent = Math.round((scoreCount / wordsToWin) * 100);
+    scoresArray.push(new Score(now, scoreCount, wordsGottenPercent));
+    gameStatus.innerText = 'GAME OVER';
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
     gameOverBox.style.visibility = 'visible';
     gameOverBox.style.opacity = '1';
+    addToScoreboard(wordsGottenPercent);
     listen('click', resetBtn, resetGame);
+}
+
+function gameWin() {
+    begin.pause();
+    scoresArray.push(new Score(now, scoreCount, 100));
+    gameStatus.innerText = 'YOU WIN!';
+    gameBox.style.visibility = 'hidden';
+    gameBox.style.opacity = '0';
+    endScore.innerText = scoreCount;
+    gameOverBox.style.visibility = 'visible';
+    gameOverBox.style.opacity = '1';
+    addToScoreboard(100);
+    listen('click', resetBtn, resetGame);
+}
+
+// Add to scoreboard
+
+function addToScoreboard(percent) {
+    scoreboard.innerHTML += `
+        <div class="top-score">
+            <div class="score-element">
+                <p>Score:<span>${scoreCount}</span></p>
+            </div>
+            <div class="score-element">
+                <p>Date: <span>${getDate()}</span></p>
+            </div>
+            <div class="score-element">
+                <p><span>${percent}</span>%</p>
+            </div>
+        </div>
+    `;
 }
 
 // Select random word from array
