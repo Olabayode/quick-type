@@ -15,6 +15,7 @@ const startBtn = select('.start-button');
 const gameBox = select('.game-container');
 const startCount = select('.start-countdown');
 const userInput = getElement('user-input');
+const randomDisplay = getElement('random-word');
 
 
 // TIMER elements
@@ -47,6 +48,7 @@ listen('click', startBtn, () => {
 function openGame() {
     startBtn.style.visibility = 'hidden';
     startBtn.style.opacity = '0';
+    randomDisplay.innerText = getRandomWord(randomWords);
     // startMainTimer();
     countdownInterval = setInterval(countdown, 1000);
     setTimeout(() => {
@@ -80,7 +82,7 @@ function countdown() {
 }
 
 
-// main timmer
+// main timer
 
 function startMainTimer() {
     timerDisplay.textContent = timeLeft;
@@ -89,7 +91,7 @@ function startMainTimer() {
         timeLeft--;
         timerDisplay.textContent = timeLeft;
 
-        if (timeLeft <= 0) {
+        if (timeLeft === 0) {
             clearInterval(timerInterval);
             gameOver();
         }
@@ -101,4 +103,11 @@ function startMainTimer() {
 function gameOver() {
     begin.pause();
     alert("Time’s up! Game Over!");
+}
+
+// Select random word from array
+
+function getRandomWord(arr) {
+    let randIndex = Math.floor(Math.random() * (arr.length - 1));
+    return arr[randIndex];
 }
