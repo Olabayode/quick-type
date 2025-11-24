@@ -10,12 +10,14 @@ const begin = new Audio('./assets/media/begin.mp3');
 begin.type = 'audio/mp3';
 begin.loop = true;
 
+
 //query selector
 const startBtn = select('.start-button');
 const gameBox = select('.game-container');
 const startCount = select('.start-countdown');
 const userInput = getElement('user-input');
 const randomDisplay = getElement('random-word');
+const score = getElement('score');
 
 
 // TIMER elements
@@ -42,13 +44,20 @@ listen('click', startBtn, () => {
     });
 })
 
-//start function 
+listen('input', userInput, () => {
+    const typed = userInput.value.trim();
+    matchWords(typed);
+})
 
+//start function 
+let currentWord = '';
+let scoreCount = 0;
 
 function openGame() {
     startBtn.style.visibility = 'hidden';
     startBtn.style.opacity = '0';
-    randomDisplay.innerText = getRandomWord(randomWords);
+    currentWord = getRandomWord(randomWords);
+    randomDisplay.innerText = currentWord;
     // startMainTimer();
     countdownInterval = setInterval(countdown, 1000);
     setTimeout(() => {
@@ -103,6 +112,7 @@ function startMainTimer() {
 function gameOver() {
     begin.pause();
     alert("Time’s up! Game Over!");
+    resetGame();
 }
 
 // Select random word from array
@@ -110,4 +120,46 @@ function gameOver() {
 function getRandomWord(arr) {
     let randIndex = Math.floor(Math.random() * (arr.length - 1));
     return arr[randIndex];
+}
+
+function matchWords(typed){
+    if (typed === currentWord){
+        userInput.value = "";
+        currentWord = getRandomWord(randomWords);
+        randomDisplay.innerText = currentWord;
+        scoreCount++;
+        score.innerText = scoreCount;
+    }
+}
+
+
+function resetGame() {
+    timeLeft = 30;
+    scoreCount = 0;
+    currentWord = '';
+    counter = 3;
+
+    startBtn.style.visibility = 'visible';
+    startBtn.style.opacity = '1';
+    gameBox.style.visibility = 'hidden';
+    gameBox.style.opacity = '0';
+    startCount.style.visibility = 'hidden';
+    startCount.style.opacity = '0';
+
+    userInput.value = '';
+    randomDisplay.innerText = '';
+    score.innerText = scoreCount;
+    timerDisplay.textContent = timeLeft;
+
+    
+    if (timerInterval) clearInterval(timerInterval);
+    if (countdownInterval) clearInterval(countdownInterval);
+
+    // Reset audio and flags
+    welcome.pause();
+    welcome.currentTime = 0;
+    welcome.muted = true;
+    begin.pause();
+    begin.currentTime = 0;
+    welcomePlayed = false;
 }
