@@ -158,6 +158,30 @@
 	input:focus { box-shadow: 0 0 3px #7893b3; }
 }
 
+/* Scoreboard */
+
+.scoreboard-title {
+	margin-top: 20px;
+	font-size: 20px;
+}
+
+#scoreboard {
+	overflow-y: scroll;
+	border: 1px solid rgb(99 101 104 / 0.3);
+	border-radius: 8px;
+	padding: 8px;
+	height: 30%;
+}
+
+#scoreboard::-webkit-scrollbar {
+  display: none;
+}
+
+.top-score {
+	display: flex;
+	justify-content: space-around;
+}
+
 /* Media Queries */
 
 @media (max-height: 890px) {

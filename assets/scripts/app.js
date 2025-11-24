@@ -22,7 +22,7 @@ const score = getElement('score');
 
 // TIMER elements
 const timerDisplay = getElement('time-remaining');
-let timeLeft = 30;   // we can change it to whatever time we want
+let timeLeft = 999;   // we can change it to whatever time we want
 let timerInterval = null;
 
 //event listener
