@@ -23,6 +23,7 @@ const gameOverBox = getElement('game-over-container');
 const endScore = getElement('game-over-score');
 const resetBtn = getElement('reset-button');
 const gameStatus = getElement('game-over-status');
+const wordsRemainDisplay = getElement('words-remaining');
 
 
 // TIMER elements
@@ -32,6 +33,8 @@ let timerInterval = null;
 
 // words to win
 const wordsToWin = 15;
+wordsRemainDisplay.innerText = wordsToWin;
+
 
 // event listener
 let welcomePlayed = false;
@@ -60,6 +63,7 @@ listen('input', userInput, () => {
 //start function 
 let currentWord = '';
 let scoreCount = 0;
+let wordsRemaining;
 
 function openGame() {
     startBtn.style.visibility = 'hidden';
@@ -184,6 +188,8 @@ function matchWords(typed){
         randomDisplay.innerText = currentWord;
         scoreCount++;
         score.innerText = scoreCount;
+        wordsRemaining = wordsToWin - scoreCount;
+        wordsRemainDisplay.innerText = wordsRemaining;
     }
 }
 
@@ -206,6 +212,7 @@ function resetGame() {
     randomDisplay.innerText = '';
     score.innerText = scoreCount;
     timerDisplay.textContent = timeLeft;
+    wordsRemainDisplay.innerText = wordsToWin;
 
     
     if (timerInterval) clearInterval(timerInterval);
