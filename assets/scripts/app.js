@@ -1,6 +1,6 @@
 'use strict';
 
-import { select, listen, getElement, selectAll } from "./utils.js";
+import { select, listen, getElement, selectAll, randomWords } from "./utils.js";
 
 const welcome = new Audio('./assets/media/welcome.mp3');
 welcome.muted = true;
