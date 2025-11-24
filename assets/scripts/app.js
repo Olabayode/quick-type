@@ -109,12 +109,12 @@ function startMainTimer() {
 
 
 // Placeholder gameOver function
-let scoreboard = [];
+let scoresArray = [];
 
 function gameOver() {
     begin.pause();
     let now = new Date();
-    scoreboard.push(new Score(now, scoreCount, 100));
+    scoresArray.push(new Score(now, scoreCount, 100));
     alert("Time’s up! Game Over!");
     resetGame();
 }
