@@ -18,11 +18,14 @@ const startCount = select('.start-countdown');
 const userInput = getElement('user-input');
 const randomDisplay = getElement('random-word');
 const score = getElement('score');
+const gameOverBox = getElement('game-over-container');
+const endScore = getElement('game-over-score');
+const resetBtn = getElement('reset-button');
 
 
 // TIMER elements
 const timerDisplay = getElement('time-remaining');
-let timeLeft = 999;   // we can change it to whatever time we want
+let timeLeft = 30;   // we can change it to whatever time we want, also need to change in the reset function
 let timerInterval = null;
 
 //event listener
@@ -45,7 +48,7 @@ listen('click', startBtn, () => {
 })
 
 listen('input', userInput, () => {
-    const typed = userInput.value.trim();
+    const typed = userInput.value.trim().toUpperCase();
     matchWords(typed);
 })
 
@@ -115,8 +118,13 @@ function gameOver() {
     begin.pause();
     let now = new Date();
     scoresArray.push(new Score(now, scoreCount, 100));
-    alert("Time’s up! Game Over!");
-    resetGame();
+    // alert("Time’s up! Game Over!");
+    gameBox.style.visibility = 'hidden';
+    gameBox.style.opacity = '0';
+    endScore.innerText = scoreCount;
+    gameOverBox.style.visibility = 'visible';
+    gameOverBox.style.opacity = '1';
+    listen('click', resetBtn, resetGame);
 }
 
 // Select random word from array
@@ -127,7 +135,7 @@ function getRandomWord(arr) {
 }
 
 function matchWords(typed){
-    if (typed === currentWord){
+    if (typed === currentWord.toUpperCase()){
         userInput.value = "";
         currentWord = getRandomWord(randomWords);
         randomDisplay.innerText = currentWord;
@@ -143,10 +151,11 @@ function resetGame() {
     currentWord = '';
     counter = 3;
 
+
     startBtn.style.visibility = 'visible';
     startBtn.style.opacity = '1';
-    gameBox.style.visibility = 'hidden';
-    gameBox.style.opacity = '0';
+    gameOverBox.style.visibility = 'hidden';
+    gameOverBox.style.opacity = '0';
     startCount.style.visibility = 'hidden';
     startCount.style.opacity = '0';
 

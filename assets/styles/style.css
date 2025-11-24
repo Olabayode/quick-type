@@ -185,6 +185,8 @@
 /* Game Over */
 
 #game-over-container {
+	visibility: hidden;
+	opacity: 0;
 	background-color: rgb(242, 249, 255);
 	width: 50%;
 	height: 35%;
@@ -216,6 +218,14 @@
 		height: 48px;
 		font-weight: 600;
 		font-size: 22px;
+	}
+	input:hover {
+		translate: 0 -3px;
+		box-shadow: 1px 3px 4px #7a8ee7;
+	}
+	input:active {
+		border-color: gray;
+		background-color: whitesmoke;
 	}
 }
 
