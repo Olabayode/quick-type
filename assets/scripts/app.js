@@ -46,7 +46,7 @@ listen('click', startBtn, () => {
 function openGame() {
     startBtn.style.visibility = 'hidden';
     startBtn.style.opacity = '0';
-    startMainTimer();
+    // startMainTimer();
     setInterval(countdown, 1000);
     setTimeout(() => {
         gameBox.style.visibility = 'visible';
@@ -62,6 +62,8 @@ function countdown() {
     if (counter === 0) {
         startCount.style.visibility = 'hidden';
         startCount.style.opacity = '0';
+        startMainTimer();
+        
     } else {
         startCount.style.visibility = 'visible';
         startCount.style.opacity = '1';
