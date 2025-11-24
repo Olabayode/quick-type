@@ -113,15 +113,15 @@
 	box-shadow: 1px 1px 5px #606ca1;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-evenly;
+	/* justify-content:flex-start; */
 }
 
 .timer {
     font-size: 28px;
-    color: #0731bb;
+    color: #4d4949;
     font-weight: 700;
     margin-top: 10px;
-    margin-bottom: -10px;
+    /* margin-bottom: -1px; */
     text-shadow: 0 0 4px rgb(0 0 0 / 0.15);
     text-align: center;
 }
@@ -132,7 +132,7 @@
 }
 
 #time-remaining {
-    color: #278cff;
+    color: #151719;
     font-weight: 900;
     font-size: 32px;
 }
@@ -140,12 +140,12 @@
 
 .displayed-word {
 	font-size: 52px;
-	margin-top: 20px;
+	margin-top: 50px;
 }
 
 .typed-word {
 	font-size: 26px;
-	margin-top: -80px;
+	margin-top: 20px;
 	input { 
 		height: 68px;
 		width: 300px;
