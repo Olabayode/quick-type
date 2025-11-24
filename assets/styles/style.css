@@ -116,6 +116,28 @@
 	justify-content: space-evenly;
 }
 
+.timer {
+    font-size: 28px;
+    color: #0731bb;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: -10px;
+    text-shadow: 0 0 4px rgb(0 0 0 / 0.15);
+    text-align: center;
+}
+
+.timer p {
+    margin: 0;
+    padding: 5px 0;
+}
+
+#time-remaining {
+    color: #278cff;
+    font-weight: 900;
+    font-size: 32px;
+}
+
+
 .displayed-word {
 	font-size: 52px;
 	margin-top: 20px;
