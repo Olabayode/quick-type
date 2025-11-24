@@ -16,6 +16,7 @@ const gameBox = select('.game-container');
 const startCount = select('.start-countdown');
 const userInput = getElement('user-input');
 
+
 // TIMER elements
 const timerDisplay = getElement('time-remaining');
 let timeLeft = 30;   // we can change it to whatever time we want
@@ -47,7 +48,7 @@ function openGame() {
     startBtn.style.visibility = 'hidden';
     startBtn.style.opacity = '0';
     // startMainTimer();
-    setInterval(countdown, 1000);
+    countdownInterval = setInterval(countdown, 1000);
     setTimeout(() => {
         gameBox.style.visibility = 'visible';
         gameBox.style.opacity = '1';
@@ -57,13 +58,16 @@ function openGame() {
 }
 
 let counter = 3;
+let countdownInterval;
 
 function countdown() {
     if (counter === 0) {
+        clearInterval(countdownInterval);
+
         startCount.style.visibility = 'hidden';
         startCount.style.opacity = '0';
         startMainTimer();
-        
+
     } else {
         startCount.style.visibility = 'visible';
         startCount.style.opacity = '1';
