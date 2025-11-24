@@ -52,9 +52,10 @@ function openGame() {
     setTimeout(() => {
         gameBox.style.visibility = 'visible';
         gameBox.style.opacity = '1';
-        userInput.focus();
     }, 4000);
-    
+    setTimeout(() => {
+        userInput.focus();
+    }, 4100);
 }
 
 let counter = 3;
