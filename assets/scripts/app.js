@@ -1,6 +1,6 @@
 'use strict';
 
-import { select, listen, getElement, selectAll, randomWords } from "./utils.js";
+import { select, listen, getElement, selectAll, randomWords, Score } from "./utils.js";
 
 const welcome = new Audio('./assets/media/welcome.mp3');
 welcome.muted = true;
@@ -109,8 +109,12 @@ function startMainTimer() {
 
 
 // Placeholder gameOver function
+let scoreboard = [];
+
 function gameOver() {
     begin.pause();
+    let now = new Date();
+    scoreboard.push(new Score(now, scoreCount, 100));
     alert("Time’s up! Game Over!");
     resetGame();
 }
