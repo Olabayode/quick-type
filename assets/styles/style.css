@@ -120,7 +120,7 @@
     font-size: 28px;
     color: #4d4949;
     font-weight: 700;
-    margin-top: 20px;
+    margin-top: 15px;
     text-shadow: 0 0 4px rgb(0 0 0 / 0.15);
     text-align: center;
 }
@@ -139,7 +139,7 @@
 
 .displayed-word {
 	font-size: 52px;
-	margin-top: 20px;
+	margin-top: 12px;
 }
 
 .typed-word {
@@ -159,7 +159,7 @@
 /* Scoreboard */
 
 .scoreboard-title {
-	margin-top: 20px;
+	margin-top: 50px;
 	font-size: 20px;
 }
 
