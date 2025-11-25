@@ -10,6 +10,12 @@ const begin = new Audio('./assets/media/begin.mp3');
 begin.type = 'audio/mp3';
 begin.loop = true;
 
+const startClick = new Audio('./assets/media/startClick.mp3');
+startClick.type = 'audio/mp3';
+
+const startCountdown = new Audio('./assets/media/countdown.mp3');
+startCountdown.type = 'audio/mp3';
+
 
 //query selector
 const startBtn = select('.start-button');
@@ -47,6 +53,10 @@ listen('click', window, (event) => {
 }, { once: true });
 
 listen('click', startBtn, () => {
+    startClick.play();
+    setTimeout(() => {
+        startCountdown.play()
+    }, 1000);
     welcome.pause();
     welcome.currentTime = 0;
     openGame();
