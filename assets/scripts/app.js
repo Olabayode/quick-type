@@ -64,11 +64,13 @@ listen('input', userInput, () => {
 let currentWord = '';
 let scoreCount = 0;
 let wordsRemaining;
+let createdWordsList = getRandomWord(randomWords);
+let currentIndex = 1;
 
 function openGame() {
     startBtn.style.visibility = 'hidden';
     startBtn.style.opacity = '0';
-    currentWord = getRandomWord(randomWords);
+    currentWord = createdWordsList[0].toString();
     randomDisplay.innerText = currentWord;
     // startMainTimer();
     countdownInterval = setInterval(countdown, 1000);
@@ -133,7 +135,7 @@ function gameOver() {
     begin.pause();
     let wordsGottenPercent = Math.round((scoreCount / wordsToWin) * 100);
     scoresArray.push(new Score(now, scoreCount, wordsGottenPercent));
-    gameStatus.innerText = 'GAME OVER';
+    gameStatus.innerHTML = 'GAME&nbsp;OVER';
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
@@ -146,7 +148,7 @@ function gameOver() {
 function gameWin() {
     begin.pause();
     scoresArray.push(new Score(now, scoreCount, 100));
-    gameStatus.innerText = 'YOU WIN!';
+    gameStatus.innerHTML = 'YOU&nbsp;WIN!';
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
@@ -177,14 +179,23 @@ function addToScoreboard(percent) {
 // Select random word from array
 
 function getRandomWord(arr) {
-    let randIndex = Math.floor(Math.random() * (arr.length - 1));
-    return arr[randIndex];
+    let randomizedList = [];
+    for (let i = 0; i < 15; i++) {
+        let randIndex = Math.floor(Math.random() * (arr.length - 1));
+        let foundIndex = arr.splice(randIndex, 1);
+        randomizedList.push(foundIndex);
+    }
+    return randomizedList;
 }
 
-function matchWords(typed){
+function matchWords(typed) {
+    
+    let currentString;
     if (typed === currentWord.toUpperCase()){
         userInput.value = "";
-        currentWord = getRandomWord(randomWords);
+        currentString = createdWordsList[currentIndex].toString();
+        currentIndex++;
+        currentWord = currentString;
         randomDisplay.innerText = currentWord;
         scoreCount++;
         score.innerText = scoreCount;
@@ -199,6 +210,9 @@ function resetGame() {
     scoreCount = 0;
     currentWord = '';
     counter = 3;
+    currentIndex = 1;
+    createdWordsList = getRandomWord(randomWords);
+
 
 
     startBtn.style.visibility = 'visible';
