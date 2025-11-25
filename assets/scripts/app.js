@@ -174,7 +174,7 @@ function addToScoreboard(percent) {
     scoreboard.innerHTML += `
         <div class="top-score">
             <div class="score-element">
-                <p>Score:<span>${scoreCount}</span></p>
+                <p>Time remaining:<span>${timeLeft}</span></p>
             </div>
             <div class="score-element">
                 <p>Date: <span>${getDate()}</span></p>
@@ -190,7 +190,7 @@ function addToScoreboard(percent) {
 
 function getRandomWord(arr) {
     let randomizedList = [];
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 16; i++) {
         let randIndex = Math.floor(Math.random() * (arr.length - 1));
         let foundIndex = arr.splice(randIndex, 1);
         randomizedList.push(foundIndex);
@@ -199,7 +199,6 @@ function getRandomWord(arr) {
 }
 
 function matchWords(typed) {
-    
     let currentString;
     if (typed === currentWord.toUpperCase()){
         userInput.value = "";
@@ -222,7 +221,6 @@ function resetGame() {
     counter = 3;
     currentIndex = 1;
     createdWordsList = getRandomWord(randomWords);
-
 
 
     startBtn.style.visibility = 'visible';
