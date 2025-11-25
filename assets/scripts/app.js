@@ -1,6 +1,6 @@
 'use strict';
 
-import { select, listen, getElement, selectAll } from "./utils.js";
+import { select, listen, getElement, selectAll, randomWords, Score, getDate } from "./utils.js";
 
 const welcome = new Audio('./assets/media/welcome.mp3');
 welcome.muted = true;
@@ -10,19 +10,39 @@ const begin = new Audio('./assets/media/begin.mp3');
 begin.type = 'audio/mp3';
 begin.loop = true;
 
+const startClick = new Audio('./assets/media/startClick.mp3');
+startClick.type = 'audio/mp3';
+
+const startCountdown = new Audio('./assets/media/countdown.mp3');
+startCountdown.type = 'audio/mp3';
+
+
 //query selector
 const startBtn = select('.start-button');
 const gameBox = select('.game-container');
 const startCount = select('.start-countdown');
 const userInput = getElement('user-input');
+const randomDisplay = getElement('random-word');
+const score = getElement('score');
+const scoreboard = getElement('scoreboard');
+const gameOverBox = getElement('game-over-container');
+const endScore = getElement('game-over-score');
+const resetBtn = getElement('reset-button');
+const gameStatus = getElement('game-over-status');
+const wordsRemainDisplay = getElement('words-remaining');
 
 
 // TIMER elements
 const timerDisplay = getElement('time-remaining');
-let timeLeft = 30;   // we can change it to whatever time we want
+let timeLeft = 30;   // we can change it to whatever time we want, also need to change in the reset function
 let timerInterval = null;
 
-//event listener
+// words to win
+const wordsToWin = 15;
+wordsRemainDisplay.innerText = wordsToWin;
+
+
+// event listener
 let welcomePlayed = false;
 listen('click', window, (event) => {
     if (!welcomePlayed && !startBtn.contains(event.target)) {
@@ -33,6 +53,10 @@ listen('click', window, (event) => {
 }, { once: true });
 
 listen('click', startBtn, () => {
+    startClick.play();
+    setTimeout(() => {
+        startCountdown.play()
+    }, 1000);
     welcome.pause();
     welcome.currentTime = 0;
     openGame();
@@ -41,20 +65,30 @@ listen('click', startBtn, () => {
     });
 })
 
-//start function 
+listen('input', userInput, () => {
+    const typed = userInput.value.trim().toUpperCase();
+    matchWords(typed);
+})
 
+//start function 
+let currentWord = '';
+let scoreCount = 0;
+let wordsRemaining;
 
 function openGame() {
     startBtn.style.visibility = 'hidden';
     startBtn.style.opacity = '0';
+    currentWord = getRandomWord(randomWords);
+    randomDisplay.innerText = currentWord;
     // startMainTimer();
     countdownInterval = setInterval(countdown, 1000);
     setTimeout(() => {
         gameBox.style.visibility = 'visible';
         gameBox.style.opacity = '1';
-        userInput.focus();
     }, 4000);
-    
+    setTimeout(() => {
+        userInput.focus();
+    }, 4100);
 }
 
 let counter = 3;
@@ -79,7 +113,7 @@ function countdown() {
 }
 
 
-// main timmer
+// main timer
 
 function startMainTimer() {
     timerDisplay.textContent = timeLeft;
@@ -88,7 +122,12 @@ function startMainTimer() {
         timeLeft--;
         timerDisplay.textContent = timeLeft;
 
-        if (timeLeft <= 0) {
+        if (scoreCount === wordsToWin) {
+            clearInterval(timerInterval);
+            gameWin();
+        }
+
+        if (timeLeft === 0) {
             clearInterval(timerInterval);
             gameOver();
         }
@@ -96,8 +135,104 @@ function startMainTimer() {
 }
 
 
-// Placeholder gameOver function
+// gameOver function
+let scoresArray = [];
+let now = new Date();
+
 function gameOver() {
     begin.pause();
-    alert("Time’s up! Game Over!");
+    let wordsGottenPercent = Math.round((scoreCount / wordsToWin) * 100);
+    scoresArray.push(new Score(now, scoreCount, wordsGottenPercent));
+    gameStatus.innerText = 'GAME OVER';
+    gameBox.style.visibility = 'hidden';
+    gameBox.style.opacity = '0';
+    endScore.innerText = scoreCount;
+    gameOverBox.style.visibility = 'visible';
+    gameOverBox.style.opacity = '1';
+    addToScoreboard(wordsGottenPercent);
+    listen('click', resetBtn, resetGame);
+}
+
+function gameWin() {
+    begin.pause();
+    scoresArray.push(new Score(now, scoreCount, 100));
+    gameStatus.innerText = 'YOU WIN!';
+    gameBox.style.visibility = 'hidden';
+    gameBox.style.opacity = '0';
+    endScore.innerText = scoreCount;
+    gameOverBox.style.visibility = 'visible';
+    gameOverBox.style.opacity = '1';
+    addToScoreboard(100);
+    listen('click', resetBtn, resetGame);
+}
+
+// Add to scoreboard
+
+function addToScoreboard(percent) {
+    scoreboard.innerHTML += `
+        <div class="top-score">
+            <div class="score-element">
+                <p>Score:<span>${scoreCount}</span></p>
+            </div>
+            <div class="score-element">
+                <p>Date: <span>${getDate()}</span></p>
+            </div>
+            <div class="score-element">
+                <p><span>${percent}</span>%</p>
+            </div>
+        </div>
+    `;
+}
+
+// Select random word from array
+
+function getRandomWord(arr) {
+    let randIndex = Math.floor(Math.random() * (arr.length - 1));
+    return arr[randIndex];
+}
+
+function matchWords(typed){
+    if (typed === currentWord.toUpperCase()){
+        userInput.value = "";
+        currentWord = getRandomWord(randomWords);
+        randomDisplay.innerText = currentWord;
+        scoreCount++;
+        score.innerText = scoreCount;
+        wordsRemaining = wordsToWin - scoreCount;
+        wordsRemainDisplay.innerText = wordsRemaining;
+    }
+}
+
+
+function resetGame() {
+    timeLeft = 30;
+    scoreCount = 0;
+    currentWord = '';
+    counter = 3;
+
+
+    startBtn.style.visibility = 'visible';
+    startBtn.style.opacity = '1';
+    gameOverBox.style.visibility = 'hidden';
+    gameOverBox.style.opacity = '0';
+    startCount.style.visibility = 'hidden';
+    startCount.style.opacity = '0';
+
+    userInput.value = '';
+    randomDisplay.innerText = '';
+    score.innerText = scoreCount;
+    timerDisplay.textContent = timeLeft;
+    wordsRemainDisplay.innerText = wordsToWin;
+
+    
+    if (timerInterval) clearInterval(timerInterval);
+    if (countdownInterval) clearInterval(countdownInterval);
+
+    // Reset audio and flags
+    welcome.pause();
+    welcome.currentTime = 0;
+    welcome.muted = true;
+    begin.pause();
+    begin.currentTime = 0;
+    welcomePlayed = false;
 }
