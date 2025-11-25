@@ -164,7 +164,7 @@ function addToScoreboard(percent) {
     scoreboard.innerHTML += `
         <div class="top-score">
             <div class="score-element">
-                <p>Time remaining:<span>${timeLeft}</span></p>
+                <p>Time Left: <span>${timeLeft}</span></p>
             </div>
             <div class="score-element">
                 <p>Date: <span>${getDate()}</span></p>
