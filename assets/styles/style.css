@@ -26,7 +26,7 @@
 
 .background {
 	height: 100svh;
-    background-image: url('/assets/media/background.png');
+    background-image: url('../media/background.png');
     background-repeat: no-repeat;        
     background-position: center;         
     background-size: cover; 
@@ -115,7 +115,7 @@
 	visibility: hidden;
 	opacity: 0;
 	background-color: rgb(242, 249, 255);
-    background-image: url('/assets/media/gameplay.png');
+    background-image: url('../media/gameplay.png');
     background-repeat: no-repeat;        
     background-position: center;         
     background-size: cover; 
@@ -202,7 +202,7 @@
 	visibility: hidden;
 	opacity: 0;
 	background-color: rgb(242, 249, 255);
-    background-image: url('/assets/media/gameEnd.png');
+    background-image: url('../media/gameEnd.png');
     background-repeat: no-repeat;        
     background-position: center;         
     background-size: cover; 
