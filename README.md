@@ -5,7 +5,7 @@ This interactive browser game tests typing speed, accuracy, and reaction time â€
 
 ## Live Demo
 Click the link to test your typing speed:- 
-**https://username.github.io/quicktype/**
+**[https://olabayode.github.io/quick-type/]**
 
 
 ## Project Overview
