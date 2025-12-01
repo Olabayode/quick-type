@@ -79,6 +79,8 @@ listen('input', userInput, () => {
     matchWords(typed);
 })
 
+
+
 //start function 
 let currentWord = '';
 let scoreCount = 0;
@@ -149,13 +151,25 @@ function startMainTimer() {
 
 // gameOver function
 let scoresArray = [];
-let now = new Date();
+// let now = new Date();
+
+const saved = localStorage.getItem('scores');
+if (saved) {
+  const parsed = JSON.parse(saved);
+  scoresArray = parsed.map(score => new Score(score.date, score.hits, score.percentage));
+  displayScores(scoresArray);
+} 
 
 function gameOver() {
     begin.pause();
     fail.play();
     let wordsGottenPercent = Math.round((scoreCount / wordsToWin) * 100);
-    scoresArray.push(new Score(now, scoreCount, wordsGottenPercent));
+    // scoresArray.push(new Score(now.toDateString(), scoreCount, wordsGottenPercent));
+     scoresArray.push({
+        date: new Date().toDateString(),
+        hits: scoreCount,
+        percentage: wordsGottenPercent
+    });
     sortScores(scoresArray);
     gameStatus.innerHTML = 'GAME&nbsp;OVER🤕';
     gameBox.style.visibility = 'hidden';
@@ -164,13 +178,19 @@ function gameOver() {
     gameOverBox.style.visibility = 'visible';
     gameOverBox.style.opacity = '1';
     displayScores(scoresArray);
+    localStorage.setItem('scores', JSON.stringify(scoresArray));
     listen('click', resetBtn, resetGame);
 }
 
 function gameWin() {
     begin.pause();
     victory.play();
-    scoresArray.push(new Score(now, scoreCount, 100));
+    // scoresArray.push(new Score(now.toDateString(), scoreCount, 100));
+    scoresArray.push({
+        date: new Date().toDateString(),
+        hits: scoreCount,
+        percentage: 100
+    });
     sortScores(scoresArray);
     gameStatus.innerHTML = 'YOU&nbsp;WIN🎉';
     gameBox.style.visibility = 'hidden';
@@ -178,7 +198,9 @@ function gameWin() {
     endScore.innerText = scoreCount;
     gameOverBox.style.visibility = 'visible';
     gameOverBox.style.opacity = '1';
+
     displayScores(scoresArray);
+    localStorage.setItem('scores', JSON.stringify(scoresArray));
     listen('click', resetBtn, resetGame);
 }
 
