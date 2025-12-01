@@ -10,6 +10,18 @@ const begin = new Audio('./assets/media/begin.mp3');
 begin.type = 'audio/mp3';
 begin.loop = true;
 
+const startClick = new Audio('./assets/media/startClick.mp3');
+startClick.type = 'audio/mp3';
+
+const startCountdown = new Audio('./assets/media/countdown.mp3');
+startCountdown.type = 'audio/mp3';
+
+const fail = new Audio('./assets/media/fail.mp3');
+fail.type = 'audio/mp3';
+
+const victory = new Audio('./assets/media/victory.mp3');
+victory.type = 'audio/mp3';
+
 
 //query selector
 const startBtn = select('.start-button');
@@ -32,7 +44,7 @@ let timeLeft = 30;   // we can change it to whatever time we want, also need to 
 let timerInterval = null;
 
 // words to win
-const wordsToWin = 15;
+const wordsToWin = 15; //we can change the words to win here
 wordsRemainDisplay.innerText = wordsToWin;
 
 
@@ -47,12 +59,19 @@ listen('click', window, (event) => {
 }, { once: true });
 
 listen('click', startBtn, () => {
+    startClick.play();
+    setTimeout(() => {
+        startCountdown.play()
+    }, 1000);
     welcome.pause();
     welcome.currentTime = 0;
     openGame();
-    begin.play().catch(error => {
-        console.log('Start audio prevented:', error)
-    });
+    begin.muted = true;
+    begin.play();
+    setTimeout(() => {
+      begin.muted = false; 
+    }, 4500)
+    
 })
 
 listen('input', userInput, () => {
@@ -66,10 +85,13 @@ let scoreCount = 0;
 let wordsRemaining;
 let createdWordsList = getRandomWord(randomWords);
 let currentIndex = 1;
+let createdWordsList = getRandomWord(randomWords);
+let currentIndex = 1;
 
 function openGame() {
     startBtn.style.visibility = 'hidden';
     startBtn.style.opacity = '0';
+    currentWord = createdWordsList[0].toString();
     currentWord = createdWordsList[0].toString();
     randomDisplay.innerText = currentWord;
     // startMainTimer();
@@ -133,9 +155,10 @@ let now = new Date();
 
 function gameOver() {
     begin.pause();
+    fail.play();
     let wordsGottenPercent = Math.round((scoreCount / wordsToWin) * 100);
     scoresArray.push(new Score(now, scoreCount, wordsGottenPercent));
-    gameStatus.innerHTML = 'GAME&nbsp;OVER';
+    gameStatus.innerHTML = 'GAME&nbsp;OVER🤕';
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
@@ -147,8 +170,9 @@ function gameOver() {
 
 function gameWin() {
     begin.pause();
+    victory.play();
     scoresArray.push(new Score(now, scoreCount, 100));
-    gameStatus.innerHTML = 'YOU&nbsp;WIN!';
+    gameStatus.innerHTML = 'YOU&nbsp;WIN🎉';
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
@@ -164,6 +188,7 @@ function addToScoreboard(percent) {
     scoreboard.innerHTML += `
         <div class="top-score">
             <div class="score-element">
+                <p>Time Left: <span>${timeLeft}</span></p>
                 <p>Time Left: <span>${timeLeft}</span></p>
             </div>
             <div class="score-element">
@@ -186,12 +211,22 @@ function getRandomWord(arr) {
         randomizedList.push(foundIndex);
     }
     return randomizedList;
+    let randomizedList = [];
+    for (let i = 0; i < 16; i++) {
+        let randIndex = Math.floor(Math.random() * (arr.length - 1));
+        let foundIndex = arr.splice(randIndex, 1);
+        randomizedList.push(foundIndex);
+    }
+    return randomizedList;
 }
 
 function matchWords(typed) {
     let currentString;
     if (typed === currentWord.toUpperCase()){
         userInput.value = "";
+        currentString = createdWordsList[currentIndex].toString();
+        currentIndex++;
+        currentWord = currentString;
         currentString = createdWordsList[currentIndex].toString();
         currentIndex++;
         currentWord = currentString;
@@ -209,6 +244,8 @@ function resetGame() {
     scoreCount = 0;
     currentWord = '';
     counter = 3;
+    currentIndex = 1;
+    createdWordsList = getRandomWord(randomWords);
     currentIndex = 1;
     createdWordsList = getRandomWord(randomWords);
 
