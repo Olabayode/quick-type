@@ -85,8 +85,6 @@ let scoreCount = 0;
 let wordsRemaining;
 let createdWordsList = getRandomWord(randomWords);
 let currentIndex = 1;
-let createdWordsList = getRandomWord(randomWords);
-let currentIndex = 1;
 
 function openGame() {
     startBtn.style.visibility = 'hidden';
@@ -158,13 +156,14 @@ function gameOver() {
     fail.play();
     let wordsGottenPercent = Math.round((scoreCount / wordsToWin) * 100);
     scoresArray.push(new Score(now, scoreCount, wordsGottenPercent));
+    sortScores(scoresArray);
     gameStatus.innerHTML = 'GAME&nbsp;OVER🤕';
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
     gameOverBox.style.visibility = 'visible';
     gameOverBox.style.opacity = '1';
-    addToScoreboard(wordsGottenPercent);
+    displayScores(scoresArray);
     listen('click', resetBtn, resetGame);
 }
 
@@ -172,13 +171,14 @@ function gameWin() {
     begin.pause();
     victory.play();
     scoresArray.push(new Score(now, scoreCount, 100));
+    sortScores(scoresArray);
     gameStatus.innerHTML = 'YOU&nbsp;WIN🎉';
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
     gameOverBox.style.visibility = 'visible';
     gameOverBox.style.opacity = '1';
-    addToScoreboard(100);
+    displayScores(scoresArray);
     listen('click', resetBtn, resetGame);
 }
 
@@ -188,7 +188,6 @@ function addToScoreboard(percent) {
     scoreboard.innerHTML += `
         <div class="top-score">
             <div class="score-element">
-                <p>Time Left: <span>${timeLeft}</span></p>
                 <p>Time Left: <span>${timeLeft}</span></p>
             </div>
             <div class="score-element">
@@ -201,16 +200,41 @@ function addToScoreboard(percent) {
     `;
 }
 
+function sortScores(arr) {
+    arr.sort((a, b) => b.hits - a.hits);
+    if (arr.length >= 10) {
+        arr.pop();
+    }
+    return arr;
+}
+
+function displayScores(arr) {
+    scoreboard.innerHTML = '';
+    for (let elem of arr) {
+        scoreboard.innerHTML += `
+        <div class="top-score">
+            <div class="score-element">
+                <p>Hits: <span>${elem.hits}</span></p>
+            </div>
+            <div class="score-element">
+                <p>Date: <span>${elem.date.toLocaleString('en-ca', {
+                                                                        year: 'numeric',
+                                                                        month: 'short',
+                                                                        day: '2-digit',
+                                                                    }
+                                                        )}</span></p>
+            </div>
+            <div class="score-element">
+                <p><span>${elem.percentage}</span>%</p>
+            </div>
+        </div>
+        `;
+    }
+}
+
 // Select random word from array
 
 function getRandomWord(arr) {
-    let randomizedList = [];
-    for (let i = 0; i < 16; i++) {
-        let randIndex = Math.floor(Math.random() * (arr.length - 1));
-        let foundIndex = arr.splice(randIndex, 1);
-        randomizedList.push(foundIndex);
-    }
-    return randomizedList;
     let randomizedList = [];
     for (let i = 0; i < 16; i++) {
         let randIndex = Math.floor(Math.random() * (arr.length - 1));
@@ -224,9 +248,6 @@ function matchWords(typed) {
     let currentString;
     if (typed === currentWord.toUpperCase()){
         userInput.value = "";
-        currentString = createdWordsList[currentIndex].toString();
-        currentIndex++;
-        currentWord = currentString;
         currentString = createdWordsList[currentIndex].toString();
         currentIndex++;
         currentWord = currentString;
@@ -245,8 +266,10 @@ function resetGame() {
     currentWord = '';
     counter = 3;
     currentIndex = 1;
-    createdWordsList = getRandomWord(randomWords);
-    currentIndex = 1;
+    console.log(randomWords);
+    for (let word of createdWordsList) {
+        randomWords.push(word.toString());
+    }
     createdWordsList = getRandomWord(randomWords);
 
 
