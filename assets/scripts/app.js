@@ -156,16 +156,8 @@ function gameOver() {
     fail.play();
     let wordsGottenPercent = Math.round((scoreCount / wordsToWin) * 100);
     scoresArray.push(new Score(now, scoreCount, wordsGottenPercent));
-<<<<<<< HEAD
-<<<<<<< HEAD
-    gameStatus.innerHTML = 'GAME&nbsp;OVER';
-=======
-    gameStatus.innerHTML = 'GAME&nbsp;OVER🤕';
->>>>>>> ddbdac660c0c0977b293399a7d8da886af5f969c
-=======
     sortScores(scoresArray);
     gameStatus.innerHTML = 'GAME&nbsp;OVER🤕';
->>>>>>> 93c2bf9b5f2064c7d0facefb7b2f9f5c6a0319c6
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
@@ -179,16 +171,8 @@ function gameWin() {
     begin.pause();
     victory.play();
     scoresArray.push(new Score(now, scoreCount, 100));
-<<<<<<< HEAD
-<<<<<<< HEAD
-    gameStatus.innerHTML = 'YOU&nbsp;WIN!';
-=======
-    gameStatus.innerHTML = 'YOU&nbsp;WIN🎉';
->>>>>>> ddbdac660c0c0977b293399a7d8da886af5f969c
-=======
     sortScores(scoresArray);
     gameStatus.innerHTML = 'YOU&nbsp;WIN🎉';
->>>>>>> 93c2bf9b5f2064c7d0facefb7b2f9f5c6a0319c6
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
