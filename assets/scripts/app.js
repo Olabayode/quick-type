@@ -1,6 +1,6 @@
 'use strict';
 
-import { select, listen, getElement, selectAll, randomWords, Score, getDate } from "./utils.js";
+import { select, listen, getElement, selectAll, randomWords, Score, getDate, getArray, setArray } from "./utils.js";
 
 const welcome = new Audio('./assets/media/welcome.mp3');
 welcome.muted = true;
@@ -65,6 +65,7 @@ listen('click', startBtn, () => {
     }, 1000);
     welcome.pause();
     welcome.currentTime = 0;
+    getScores();
     openGame();
     begin.muted = true;
     begin.play();
@@ -157,6 +158,8 @@ function gameOver() {
     let wordsGottenPercent = Math.round((scoreCount / wordsToWin) * 100);
     scoresArray.push(new Score(now, scoreCount, wordsGottenPercent));
     sortScores(scoresArray);
+    setArray(scoresArray, 'scores');
+    getArray('scores');
     gameStatus.innerHTML = 'GAME&nbsp;OVER🤕';
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
@@ -172,6 +175,8 @@ function gameWin() {
     victory.play();
     scoresArray.push(new Score(now, scoreCount, 100));
     sortScores(scoresArray);
+    setArray(scoresArray, 'scores');
+    getArray('scores');
     gameStatus.innerHTML = 'YOU&nbsp;WIN🎉';
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
@@ -198,6 +203,19 @@ function addToScoreboard(percent) {
             </div>
         </div>
     `;
+}
+
+function getScores() {
+    if (localStorage.length > 0) {
+        let returnArray = getArray('scores');
+        for (let elem of returnArray) {
+            console.log(elem);
+        }
+        return returnArray;
+    } else {
+        console.log('Nothing in storage.');
+        return null;
+    }
 }
 
 function sortScores(arr) {
@@ -266,7 +284,6 @@ function resetGame() {
     currentWord = '';
     counter = 3;
     currentIndex = 1;
-    console.log(randomWords);
     for (let word of createdWordsList) {
         randomWords.push(word.toString());
     }

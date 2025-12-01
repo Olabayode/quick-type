@@ -36,3 +36,11 @@ export function getDate() {
 	}
 	return new Date().toLocaleString('en-ca', options);
 }
+
+export function setArray(arr, arrName) {
+  	localStorage.setItem(`${arrName}`, JSON.stringify(arr));
+}
+
+export function getArray(arrName) {
+	return JSON.parse(localStorage.getItem(`${arrName}`));
+}
