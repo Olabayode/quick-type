@@ -16,6 +16,12 @@ startClick.type = 'audio/mp3';
 const startCountdown = new Audio('./assets/media/countdown.mp3');
 startCountdown.type = 'audio/mp3';
 
+const fail = new Audio('./assets/media/fail.mp3');
+fail.type = 'audio/mp3';
+
+const victory = new Audio('./assets/media/victory.mp3');
+victory.type = 'audio/mp3';
+
 
 //query selector
 const startBtn = select('.start-button');
@@ -38,7 +44,7 @@ let timeLeft = 30;   // we can change it to whatever time we want, also need to 
 let timerInterval = null;
 
 // words to win
-const wordsToWin = 15;
+const wordsToWin = 15; //we can change the words to win here
 wordsRemainDisplay.innerText = wordsToWin;
 
 
@@ -60,9 +66,12 @@ listen('click', startBtn, () => {
     welcome.pause();
     welcome.currentTime = 0;
     openGame();
-    begin.play().catch(error => {
-        console.log('Start audio prevented:', error)
-    });
+    begin.muted = true;
+    begin.play();
+    setTimeout(() => {
+      begin.muted = false; 
+    }, 4500)
+    
 })
 
 listen('input', userInput, () => {
@@ -143,9 +152,14 @@ let now = new Date();
 
 function gameOver() {
     begin.pause();
+    fail.play();
     let wordsGottenPercent = Math.round((scoreCount / wordsToWin) * 100);
     scoresArray.push(new Score(now, scoreCount, wordsGottenPercent));
+<<<<<<< HEAD
     gameStatus.innerHTML = 'GAME&nbsp;OVER';
+=======
+    gameStatus.innerHTML = 'GAME&nbsp;OVER🤕';
+>>>>>>> ddbdac660c0c0977b293399a7d8da886af5f969c
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
@@ -157,8 +171,13 @@ function gameOver() {
 
 function gameWin() {
     begin.pause();
+    victory.play();
     scoresArray.push(new Score(now, scoreCount, 100));
+<<<<<<< HEAD
     gameStatus.innerHTML = 'YOU&nbsp;WIN!';
+=======
+    gameStatus.innerHTML = 'YOU&nbsp;WIN🎉';
+>>>>>>> ddbdac660c0c0977b293399a7d8da886af5f969c
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
