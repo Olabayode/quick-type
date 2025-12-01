@@ -230,9 +230,6 @@ function addToScoreboard(percent) {
 function getScores() {
     if (localStorage.length > 0) {
         let returnArray = getArray('scores');
-        for (let elem of returnArray) {
-            console.log(elem);
-        }
         return returnArray;
     } else {
         console.log('Nothing in storage.');
@@ -251,18 +248,17 @@ function sortScores(arr) {
 function displayScores(arr) {
     scoreboard.innerHTML = '';
     for (let elem of arr) {
+        let num = arr.indexOf(elem) + 1;
         scoreboard.innerHTML += `
         <div class="top-score">
+            <div class="score-element">
+                <p>${num}:</p>
+            </div>
             <div class="score-element">
                 <p>Hits: <span>${elem.hits}</span></p>
             </div>
             <div class="score-element">
-                <p>Date: <span>${elem.date.toLocaleString('en-ca', {
-                                                                        year: 'numeric',
-                                                                        month: 'short',
-                                                                        day: '2-digit',
-                                                                    }
-                                                        )}</span></p>
+                <p>Date: <span>${elem.date}</span></p>
             </div>
             <div class="score-element">
                 <p><span>${elem.percentage}</span>%</p>
