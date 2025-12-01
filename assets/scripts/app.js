@@ -90,6 +90,7 @@ function openGame() {
     startBtn.style.visibility = 'hidden';
     startBtn.style.opacity = '0';
     currentWord = createdWordsList[0].toString();
+    currentWord = createdWordsList[0].toString();
     randomDisplay.innerText = currentWord;
     // startMainTimer();
     countdownInterval = setInterval(countdown, 1000);
@@ -156,16 +157,21 @@ function gameOver() {
     let wordsGottenPercent = Math.round((scoreCount / wordsToWin) * 100);
     scoresArray.push(new Score(now, scoreCount, wordsGottenPercent));
 <<<<<<< HEAD
+<<<<<<< HEAD
     gameStatus.innerHTML = 'GAME&nbsp;OVER';
 =======
     gameStatus.innerHTML = 'GAME&nbsp;OVER🤕';
 >>>>>>> ddbdac660c0c0977b293399a7d8da886af5f969c
+=======
+    sortScores(scoresArray);
+    gameStatus.innerHTML = 'GAME&nbsp;OVER🤕';
+>>>>>>> 93c2bf9b5f2064c7d0facefb7b2f9f5c6a0319c6
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
     gameOverBox.style.visibility = 'visible';
     gameOverBox.style.opacity = '1';
-    addToScoreboard(wordsGottenPercent);
+    displayScores(scoresArray);
     listen('click', resetBtn, resetGame);
 }
 
@@ -174,16 +180,21 @@ function gameWin() {
     victory.play();
     scoresArray.push(new Score(now, scoreCount, 100));
 <<<<<<< HEAD
+<<<<<<< HEAD
     gameStatus.innerHTML = 'YOU&nbsp;WIN!';
 =======
     gameStatus.innerHTML = 'YOU&nbsp;WIN🎉';
 >>>>>>> ddbdac660c0c0977b293399a7d8da886af5f969c
+=======
+    sortScores(scoresArray);
+    gameStatus.innerHTML = 'YOU&nbsp;WIN🎉';
+>>>>>>> 93c2bf9b5f2064c7d0facefb7b2f9f5c6a0319c6
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
     gameOverBox.style.visibility = 'visible';
     gameOverBox.style.opacity = '1';
-    addToScoreboard(100);
+    displayScores(scoresArray);
     listen('click', resetBtn, resetGame);
 }
 
@@ -203,6 +214,38 @@ function addToScoreboard(percent) {
             </div>
         </div>
     `;
+}
+
+function sortScores(arr) {
+    arr.sort((a, b) => b.hits - a.hits);
+    if (arr.length >= 10) {
+        arr.pop();
+    }
+    return arr;
+}
+
+function displayScores(arr) {
+    scoreboard.innerHTML = '';
+    for (let elem of arr) {
+        scoreboard.innerHTML += `
+        <div class="top-score">
+            <div class="score-element">
+                <p>Hits: <span>${elem.hits}</span></p>
+            </div>
+            <div class="score-element">
+                <p>Date: <span>${elem.date.toLocaleString('en-ca', {
+                                                                        year: 'numeric',
+                                                                        month: 'short',
+                                                                        day: '2-digit',
+                                                                    }
+                                                        )}</span></p>
+            </div>
+            <div class="score-element">
+                <p><span>${elem.percentage}</span>%</p>
+            </div>
+        </div>
+        `;
+    }
 }
 
 // Select random word from array
@@ -239,6 +282,10 @@ function resetGame() {
     currentWord = '';
     counter = 3;
     currentIndex = 1;
+    console.log(randomWords);
+    for (let word of createdWordsList) {
+        randomWords.push(word.toString());
+    }
     createdWordsList = getRandomWord(randomWords);
 
 
