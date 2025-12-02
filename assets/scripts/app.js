@@ -1,6 +1,6 @@
 'use strict';
 
-import { select, listen, getElement, selectAll, randomWords, Score, getDate } from "./utils.js";
+import { select, listen, getElement, selectAll, randomWords, Score, getDate, getArray, setArray } from "./utils.js";
 
 const welcome = new Audio('./assets/media/welcome.mp3');
 welcome.muted = true;
@@ -65,6 +65,7 @@ listen('click', startBtn, () => {
     }, 1000);
     welcome.pause();
     welcome.currentTime = 0;
+    getScores();
     openGame();
     begin.muted = true;
     begin.play();
@@ -79,6 +80,8 @@ listen('input', userInput, () => {
     matchWords(typed);
 })
 
+
+
 //start function 
 let currentWord = '';
 let scoreCount = 0;
@@ -89,6 +92,7 @@ let currentIndex = 1;
 function openGame() {
     startBtn.style.visibility = 'hidden';
     startBtn.style.opacity = '0';
+    currentWord = createdWordsList[0].toString();
     currentWord = createdWordsList[0].toString();
     randomDisplay.innerText = currentWord;
     // startMainTimer();
@@ -148,34 +152,60 @@ function startMainTimer() {
 
 // gameOver function
 let scoresArray = [];
-let now = new Date();
+// let now = new Date();
+
+const saved = localStorage.getItem('scores');
+if (saved) {
+  const parsed = JSON.parse(saved);
+  scoresArray = parsed.map(score => new Score(score.date, score.hits, score.percentage));
+  displayScores(scoresArray);
+} 
 
 function gameOver() {
     begin.pause();
     fail.play();
     let wordsGottenPercent = Math.round((scoreCount / wordsToWin) * 100);
-    scoresArray.push(new Score(now, scoreCount, wordsGottenPercent));
+    // scoresArray.push(new Score(now.toDateString(), scoreCount, wordsGottenPercent));
+     scoresArray.push({
+        date: new Date().toDateString(),
+        hits: scoreCount,
+        percentage: wordsGottenPercent
+    });
+    sortScores(scoresArray);
+    setArray(scoresArray, 'scores');
+    getArray('scores');
     gameStatus.innerHTML = 'GAME&nbsp;OVER🤕';
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
     gameOverBox.style.visibility = 'visible';
     gameOverBox.style.opacity = '1';
-    addToScoreboard(wordsGottenPercent);
+    displayScores(scoresArray);
+    localStorage.setItem('scores', JSON.stringify(scoresArray));
     listen('click', resetBtn, resetGame);
 }
 
 function gameWin() {
     begin.pause();
     victory.play();
-    scoresArray.push(new Score(now, scoreCount, 100));
+    // scoresArray.push(new Score(now.toDateString(), scoreCount, 100));
+    scoresArray.push({
+        date: new Date().toDateString(),
+        hits: scoreCount,
+        percentage: 100
+    });
+    sortScores(scoresArray);
+    setArray(scoresArray, 'scores');
+    getArray('scores');
     gameStatus.innerHTML = 'YOU&nbsp;WIN🎉';
     gameBox.style.visibility = 'hidden';
     gameBox.style.opacity = '0';
     endScore.innerText = scoreCount;
     gameOverBox.style.visibility = 'visible';
     gameOverBox.style.opacity = '1';
-    addToScoreboard(100);
+
+    displayScores(scoresArray);
+    localStorage.setItem('scores', JSON.stringify(scoresArray));
     listen('click', resetBtn, resetGame);
 }
 
@@ -195,6 +225,47 @@ function addToScoreboard(percent) {
             </div>
         </div>
     `;
+}
+
+function getScores() {
+    if (localStorage.length > 0) {
+        let returnArray = getArray('scores');
+        return returnArray;
+    } else {
+        console.log('Nothing in storage.');
+        return null;
+    }
+}
+
+function sortScores(arr) {
+    arr.sort((a, b) => b.hits - a.hits);
+    if (arr.length >= 10) {
+        arr.pop();
+    }
+    return arr;
+}
+
+function displayScores(arr) {
+    scoreboard.innerHTML = '';
+    for (let elem of arr) {
+        let num = arr.indexOf(elem) + 1;
+        scoreboard.innerHTML += `
+        <div class="top-score">
+            <div class="score-element">
+                <p>${num}:</p>
+            </div>
+            <div class="score-element">
+                <p>Hits: <span>${elem.hits}</span></p>
+            </div>
+            <div class="score-element">
+                <p>Date: <span>${elem.date}</span></p>
+            </div>
+            <div class="score-element">
+                <p><span>${elem.percentage}</span>%</p>
+            </div>
+        </div>
+        `;
+    }
 }
 
 // Select random word from array
@@ -231,6 +302,9 @@ function resetGame() {
     currentWord = '';
     counter = 3;
     currentIndex = 1;
+    for (let word of createdWordsList) {
+        randomWords.push(word.toString());
+    }
     createdWordsList = getRandomWord(randomWords);
 
 
