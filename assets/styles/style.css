@@ -41,8 +41,8 @@
 	font-size: 100px;
 	text-align: center;
 	width: 100%;
-	margin-top: 60px;
-	margin-bottom: -175px;
+	margin-top: 30px;
+	margin-bottom: -135px;
 	color: #000;
     text-shadow:
     0 0 5px #0ff,
@@ -121,10 +121,11 @@
     background-size: cover; 
 	text-align: center;
 	padding: 20px;
-	height: 65%;
+	margin-top: 50px;
+	height: 70%;
 	width: 60%;
 	border-radius: 10px;
-	border: 1px solid #9eb4f0;
+	/* border: 1px solid #9eb4f0; */
 	box-shadow: 1px 1px 5px #606ca1;
 	display: flex;
 	flex-direction: column;
@@ -174,17 +175,22 @@
 /* Scoreboard */
 
 .scoreboard-title {
-	margin-top: 50px;
+	margin-top: 20px;
 	font-size: 20px;
+}
+
+.scoreboard-title h4{
+	font-size: 25px;
 }
 
 #scoreboard {
 	overflow-y: auto;
-	border: 1px solid rgb(99 101 104 / 0.3);
+	border: 2px double rgb(99 101 104 / 0.3);
 	border-radius: 8px;
+	background-color: #fff;
 	padding: 8px;
-	height: 40%;
-	max-height: 350px;
+	height: 45%;
+	max-height: 380px;
 }
 
 #scoreboard::-webkit-scrollbar {
@@ -194,6 +200,7 @@
 .top-score {
 	display: flex;
 	justify-content: space-around;
+	font-size: 18px;
 }
 
 /* Game Over */
@@ -222,11 +229,15 @@
 		font-size: 60px;
         color: #fff;
 	}
-	p { 
-		font-size: 22px;
-		font-weight: 500;
-        color: #fff;
-	}
+	p {
+        font-size: 30px;
+        font-weight: 600;
+        border: 1px solid #346aff;
+        background-color: #346aff;
+        border-radius: 10px;
+        padding: 0px 6px;
+        color: #000;
+    }
 	#game-over-score { font-weight: 600; }
 	input { 
 		margin-top: 50px;
@@ -250,50 +261,142 @@
 	}
 }
 
-#game-over-container div + div { margin-top: 20px; }
+#game-over-container div + div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
 
 /* Media Queries */
 
-@media (max-height: 890px) {
-	.title { margin-bottom: -65px; }
+@media (max-width: 1023px) and (min-width: 620px) {
+    .title {
+        font-size: 78px;
+    }
+    .game-container {
+        margin-top: 20px; 
+    }
+    .start-button input {
+        font-size: 40px;
+    }
+    .start-countdown {
+        font-size: 120px;
+    }
+    .timer {
+        font-size: 24px;
+    }
+    #time-remaining {
+        font-size: 28px;
+    }
+    .displayed-word {
+        font-size: 42px;
+    }
+    .typed-word input {
+        height: 60px;
+        width: 250px;
+        font-size: 22px;
+    }
+    .scoreboard-title h4 {
+        font-size: 22px;
+    }
+    .top-score {
+        font-size: 16px;
+    }
+    #game-over-container h2 {
+        font-size: 50px;
+    }
+    #game-over-container p {
+        font-size: 26px;
+    }
+    #game-over-container input {
+        font-size: 20px;
+        height: 44px;
+        width: 70px;
+    }
 }
 
-@media (max-height: 610px) {
-	.title { margin-bottom: -35px; }
+@media (max-width: 619px) and (min-width: 320px) {
+    .title {
+        font-size: 66px;
+    }
+    .start-button input {
+        font-size: 32px;
+    }
+    .start-countdown {
+        font-size: 100px;
+    }
+    .timer {
+        font-size: 20px;
+    }
+    #time-remaining {
+        font-size: 24px;
+    }
+    .displayed-word {
+        font-size: 30px;
+    }
+    .typed-word input {
+        height: 54px;
+        width: 80%;
+        font-size: 18px;
+    }
+    .scoreboard-title h4 {
+        font-size: 20px;
+    }
+    .top-score {
+        font-size: 14px;
+    }
+    #game-over-container h2 {
+        font-size: 40px;
+    }
+    #game-over-container p {
+        font-size: 22px;
+    }
+    #game-over-container input {
+        font-size: 18px;
+        height: 40px;
+        width: 60px;
+    }
 }
 
-@media (max-width: 800px) {
-	.displayed-word { font-size: 48px; }
-}
-
-@media (max-width: 620px) {
-	.displayed-word { font-size: 42px; }
-}
-
-@media (max-width: 510px) {
-	.displayed-word { font-size: 38px; }
-	.title { font-size: 84px;	}
-}
-
-@media (max-width: 510px) {
-	.displayed-word { font-size: 34px; }
-	.title { font-size: 78px; }
-	.typed-word input { width: 80%; }
-}
-
-@media (max-width: 430px) {
-	.displayed-word { font-size: 30px; }
-	.title { font-size: 72px; }
-}
-
-@media (max-width: 400px) {
-	.displayed-word { font-size: 24px; }
-	.title { font-size: 66px; }
-	.typed-word input { height: 60px; }
-}
-
-@media (max-width: 320px) {
-	.displayed-word { font-size: 22px; }
-	.title { font-size: 60px; }
-	.typed-word input { height: 54px; }
+@media (max-width: 319px) {
+    .title {
+        font-size: 54px;
+    }
+    .start-button input {
+        font-size: 28px;
+    }
+    .start-countdown {
+        font-size: 80px;
+    }
+    .timer {
+        font-size: 18px;
+    }
+    #time-remaining {
+        font-size: 20px;
+    }
+    .displayed-word {
+        font-size: 22px;
+    }
+    .typed-word input {
+        height: 50px;
+        width: 90%;
+        font-size: 16px;
+    }
+    .scoreboard-title h4 {
+        font-size: 18px;
+    }
+    .top-score {
+        font-size: 12px;
+    }
+    #game-over-container h2 {
+        font-size: 36px;
+    }
+    #game-over-container p {
+        font-size: 18px;
+    }
+    #game-over-container input {
+        font-size: 16px;
+        height: 36px;
+        width: 50px;
+    }
 }
